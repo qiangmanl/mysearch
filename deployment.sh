@@ -1,6 +1,6 @@
 echo deployment surrealdb store 
-docker pull surrealdb/surrealdb:latest
-docker container create --name surrealdb -p 7698:8000 -v /surrealhome:/home surrealdb/surrealdb:latest\
+sudo docker pull surrealdb/surrealdb:latest
+sudo docker container create --name surrealdb -p 7698:8000 -v /surrealhome:/home surrealdb/surrealdb:latest\
   start  -u yang -p iamyang "file:///home/data"
 mkdir mysearch
 cd mysearch
@@ -21,7 +21,7 @@ else
     echo create new master-key is $key
 fi
 echo $key >master-key.txt
-echo building meilisearch service
+echo building meilisearch service...
 
 cat << EOF > $(pwd)/meilisearch.service
 [Unit]
