@@ -1,7 +1,9 @@
 echo deployment surrealdb store 
 sudo docker pull surrealdb/surrealdb:latest
-sudo docker container create --name surrealdb -p 7698:8000 -v /surrealhome:/home surrealdb/surrealdb:latest\
+sudo docker container create --name mysearch-db -p 7698:8000 -v /mysearch-db:/home surrealdb/surrealdb:latest\
   start  -u yang -p iamyang "file:///home/data"
+sudo docker start mysearch-db
+
 mkdir mysearch
 cd mysearch
 
