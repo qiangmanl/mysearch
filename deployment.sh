@@ -1,13 +1,19 @@
-#deployment surrealdb store 
+echo deployment surrealdb store 
 docker pull surrealdb/surrealdb:latest
 docker container create --name surrealdb -p 7698:8000 -v /surrealhome:/home surrealdb/surrealdb:latest\
   start  -u yang -p iamyang "file:///home/data"
-echo "Download meilisearch from https://github.com/meilisearch/meilisearch/releases/latest and\
+mkdir mysearch
+cd mysearch
+
+echo "Or download meilisearch from https://github.com/meilisearch/meilisearch/releases/latest and\
  save filename meilisearch as a file in the workdir."  
+curl -LO https://github.com/meilisearch/meilisearch/releases/download/v1.0.0/
+sudo mv meilisearch-linux-amd64 /usr/bin/meilisearch
+chmod a+x /usr/bin/meilisearch
 
 port=7699
+echo building key file...
 key=$(cat  master-key.txt)
-
 if [ -n "$key" ]; then
     echo master-key using file is $key
 else
@@ -15,10 +21,8 @@ else
     echo create new master-key is $key
 fi
 echo $key >master-key.txt
+echo building meilisearch service
 
-chmod a+x meilisearch                                   
-
-sudo mv meilisearch /usr/bin
 cat << EOF > $(pwd)/meilisearch.service
 [Unit]
 Description=MeiliSearch
